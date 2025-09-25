@@ -7,8 +7,8 @@
 ```
 sorting-algorithms/
 ├── sorting.cpp              # C++ 정렬 알고리즘 구현
-├── test_data_gen.py        # 랜덤 테스트 데이터 생성기
-├── validator.py            # 정렬 결과 검증기
+├── makeCase.py        # 랜덤 테스트 데이터 생성기
+├── validationCase.py            # 정렬 결과 검증기
 ├── input.txt               # 테스트 입력 데이터 (자동 생성됨)
 ├── output.txt              # 정렬 결과 출력 (C++ 실행 후 생성됨)
 └── README.md               # 이 파일
@@ -22,10 +22,10 @@ sorting-algorithms/
 
 ```bash
 # 기본: 10만개 랜덤 데이터 생성
-python test_data_gen.py
+python makeCase.py
 
 # 사용자 지정: 5만개 정렬된 데이터 생성
-python test_data_gen.py -s 50000 -p sorted
+python makeCase.py -s 50000 -p sorted
 ```
 
 ### 2단계: C++ 컴파일 및 실행
@@ -43,10 +43,10 @@ g++ -O2 -o sorting sorting.cpp
 
 ```bash
 # 전체 검증 및 상세 리포트
-python validator.py
+python validationCase.py
 
 # 간단한 성공/실패만 확인
-python validator.py --quiet
+python validationCase.py --quiet
 ```
 
 ## 🔧 설치 요구사항
@@ -60,7 +60,7 @@ python validator.py --quiet
 ### 기본 사용법
 
 ```bash
-python test_data_gen.py [옵션]
+python makeCase.py [옵션]
 ```
 
 ### 주요 옵션
@@ -89,28 +89,28 @@ python test_data_gen.py [옵션]
 
 ```bash
 # 🔸 기본 테스트 (10만개 랜덤)
-python test_data_gen.py
+python makeCase.py
 
 # 🔸 대용량 테스트 (50만개)
-python test_data_gen.py -s 500000
+python makeCase.py -s 500000
 
 # 🔸 Best Case 테스트 (정렬된 데이터)
-python test_data_gen.py -s 10000 -p sorted
+python makeCase.py -s 10000 -p sorted
 
 # 🔸 Worst Case 테스트 (역순 데이터)
-python test_data_gen.py -s 10000 -p reverse
+python makeCase.py -s 10000 -p reverse
 
 # 🔸 중복값 테스트
-python test_data_gen.py -s 100000 -p duplicates
+python makeCase.py -s 100000 -p duplicates
 
 # 🔸 재현 가능한 테스트 (고정 시드)
-python test_data_gen.py --seed 12345
+python makeCase.py --seed 12345
 
 # 🔸 값 범위 지정 테스트
-python test_data_gen.py -s 10000 --min -1000 --max 1000
+python makeCase.py -s 10000 --min -1000 --max 1000
 
 # 🔸 소규모 디버깅용
-python test_data_gen.py -s 100 -o debug_input.txt
+python makeCase.py -s 100 -o debug_input.txt
 ```
 
 ### 출력 예시
@@ -130,7 +130,7 @@ python test_data_gen.py -s 100 -o debug_input.txt
 ### 기본 사용법
 
 ```bash
-python validator.py [옵션]
+python validationCase.py [옵션]
 ```
 
 ### 주요 옵션
@@ -168,13 +168,13 @@ python validator.py [옵션]
 
 ```bash
 # 🔸 기본 검증 (상세 리포트)
-python validator.py
+python validationCase.py
 
 # 🔸 사용자 지정 파일 검증
-python validator.py -i test_data.txt -o result.txt
+python validationCase.py -i test_data.txt -o result.txt
 
 # 🔸 자동화용 간단 검증
-python validator.py --quiet
+python validationCase.py --quiet
 ```
 
 ### 성공 시 출력 예시
@@ -231,7 +231,7 @@ python validator.py --quiet
 
 ```bash
 # 1️⃣ 테스트 데이터 생성
-python test_data_gen.py -s 100000
+python makeCase.py -s 100000
 
 # 2️⃣ C++ 컴파일
 g++ -O2 -o sorting sorting.cpp
@@ -240,7 +240,7 @@ g++ -O2 -o sorting sorting.cpp
 ./sorting
 
 # 4️⃣ 결과 검증
-python validator.py
+python validationCase.py
 ```
 
 ## 🎯 활용 팁
@@ -249,16 +249,16 @@ python validator.py
 
 ```bash
 # 개발 초기: 소규모 디버깅
-python test_data_gen.py -s 100 -p sorted
-python validator.py
+python makeCase.py -s 100 -p sorted
+python validationCase.py
 
 # 알고리즘 검증: 다양한 패턴
-python test_data_gen.py -s 10000 -p reverse
-python validator.py
+python makeCase.py -s 10000 -p reverse
+python validationCase.py
 
 # 성능 측정: 대용량 테스트
-python test_data_gen.py -s 500000
-time ./sorting && python validator.py
+python makeCase.py -s 500000
+time ./sorting && python validationCase.py
 ```
 
 ## 🐛 문제 해결
@@ -268,7 +268,7 @@ time ./sorting && python validator.py
 1. **"입력 파일을 찾을 수 없습니다"**
    ```bash
    # 해결: 테스트 데이터를 먼저 생성
-   python test_data_gen.py
+   python makeCase.py
    ```
 
 2. **"출력 파일을 찾을 수 없습니다"**
