@@ -48,14 +48,30 @@ class SortingValidator:
         
         try:
             with open(self.input_file, 'r', encoding='utf-8') as f:
-                content = f.read().strip()
-                if not content:
-                    result.add_error(f"입력 파일 '{self.input_file}'이 비어있습니다.")
+                lines = f.read().strip().split('\n')
+                
+                if len(lines) < 2:
+                    result.add_error(f"입력 파일 '{self.input_file}'의 형식이 잘못되었습니다. 최소 2줄 필요.")
                     return result
                 
-                # 공백으로 구분된 정수들을 파싱
+                # 첫 줄은 데이터 개수
                 try:
-                    self.original_data = [int(x) for x in content.split()]
+                    expected_count = int(lines[0].strip())
+                except ValueError:
+                    result.add_error(f"첫 줄에 데이터 개수가 올바르게 입력되지 않았습니다: {lines[0]}")
+                    return result
+                
+                # 두 번째 줄부터 데이터 읽기 (여러 줄일 수도 있음)
+                data_lines = '\n'.join(lines[1:])
+                
+                try:
+                    self.original_data = [int(x) for x in data_lines.split()]
+                    
+                    # 데이터 개수 검증
+                    if len(self.original_data) != expected_count:
+                        result.add_warning(f"선언된 개수({expected_count})와 실제 데이터 개수({len(self.original_data)})가 다릅니다.")
+                    
+                    result.add_stat("expected_count", expected_count)
                     result.add_stat("input_size", len(self.original_data))
                     result.add_stat("input_min", min(self.original_data))
                     result.add_stat("input_max", max(self.original_data))

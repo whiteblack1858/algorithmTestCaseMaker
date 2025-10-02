@@ -131,7 +131,9 @@ class TestDataGenerator:
         """데이터를 파일에 저장"""
         try:
             with open(filename, 'w') as f:
-                # 한 줄에 모든 숫자를 공백으로 구분하여 저장
+                # 첫 줄에 데이터 개수 저장
+                f.write(f"{len(data)}\n")
+                # 두 번째 줄에 모든 숫자를 공백으로 구분하여 저장
                 f.write(' '.join(map(str, data)))
             
             print(f"✅ 테스트 데이터 생성 완료!")
